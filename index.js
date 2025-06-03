@@ -39,3 +39,6 @@ app.get("/Products", (req, res) => {
   res.json(products);
 });
 
+app.get("/register",async(req,res)=>{
+  const result=await user.insertOne({name:"John"});
+});
