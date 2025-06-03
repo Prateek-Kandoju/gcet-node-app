@@ -2,9 +2,18 @@ import express from "express";
 import cors from "cors";
 const app = express();
 app.listen(8080, () => {
+  mongoose.connect("mongodb")
   console.log("Server Started");
 });
 app.use(cors());
+
+const userSchema = mongoose.Schema({
+  name:{type:String},
+})
+const user =mongoose.model("User",userSchema);
+
+
+
 app.get("/", (req, res) => {
   return res.send("Good Morning");
 });
@@ -29,3 +38,4 @@ app.get("/Products", (req, res) => {
   ];
   res.json(products);
 });
+
