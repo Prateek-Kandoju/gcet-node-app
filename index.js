@@ -41,4 +41,5 @@ app.get("/Products", (req, res) => {
 
 app.get("/register",async(req,res)=>{
   const result=await user.insertOne({name:"John"});
+  return res.json(result 
 });
