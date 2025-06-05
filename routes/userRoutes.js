@@ -1,19 +1,35 @@
-import express from 'express'
-import userModel from "../models/userModel.js";
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
 
-const userRouter = express.Router()
+import userRouter from "./routes/userRoutes.js";
+import productRouter from "./routes/productRoutes.js";
+//import orderRouter from "./routes/orderRoutes.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-userRouter.post("/register", async (req, res) => {
-  const { name, email, pass } = req.body;
-  const result = await userModel.insertOne({ name: name, email: email, pass: pass });
-  return res.json(result);
-});
+const app = express();
+app.use(cors());
+app.use(express.json());
+const MONGO_URI = process.env.MONGO_URI;
 
-userRouter.post("/login", async (req, res) => {
-  const { email, pass } = req.body;
-  const result = await userModel.findOne({ email, pass });
-  if (!result) return res.json({ message: "Invalid user or password" });
-  return res.json(result);
-}); 
+app.use("/users", userRouter);
 
-export default userRouter
+app.use("/products", productRouter);
+//app.use("/orders", orderRouter);
+
+/*app.listen(8080, () => {
+  mongoose.connect(`${MONGODB_URI}`);
+  console.log("Server Started");
+});*/
+
+mongoose
+  .connect(MONGO_URI)
+  .then(() => {
+    app.listen(8080, () => {
+      console.log("Server Started on port 8080");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
