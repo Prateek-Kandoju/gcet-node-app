@@ -17,13 +17,21 @@ app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 
-mongoose
-  .connect(MONGO_URI)
-  .then(() => {
-    app.listen(8080, () => {
-      console.log("Server Started on port 8080");
-    });
-  })
-  .catch((error) => {
+let isConnected = false;
+
+async function connectToDatabase() {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(MONGO_URI);
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (error) {
     console.log(error);
-  });
+  }
+}
+
+// Vercel will call this handler for every request
+export default async function handler(req, res) {
+  await connectToDatabase();
+  return app(req, res);
+}
