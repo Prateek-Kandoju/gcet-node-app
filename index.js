@@ -26,4 +26,5 @@ mongoose
     console.log(error);
   });
 
-export default app;
+import serverless from "serverless-http";
+export const handler = serverless(app);
