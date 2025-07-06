@@ -20,10 +20,10 @@ app.use("/orders",orderRouter)
 mongoose
   .connect(MONGO_URI)
   .then(() => {
-    app.listen(8080, () => {
-      console.log("Server Started on port 8080");
-    });
+    console.log("MongoDB connected");
   })
   .catch((error) => {
     console.log(error);
   });
+
+export default app;
