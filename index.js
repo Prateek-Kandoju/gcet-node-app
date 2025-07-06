@@ -4,7 +4,7 @@ import cors from "cors";
 
 import userRouter from "./routes/userRoutes.js";
 import productRouter from "./routes/ProductRoutes.js";
-//import orderRouter from "./routes/orderRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -16,6 +16,8 @@ const MONGO_URI = process.env.MONGO_URI;
 app.use("/users", userRouter);
 
 app.use("/products", productRouter);
+
+app.use("/orders", orderRouter);
 
 mongoose
   .connect(MONGO_URI)
