@@ -16,6 +16,9 @@ const MONGO_URI = process.env.MONGO_URI
 app.use("/users", userRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
+app.get("/", (_req, res) => {
+  res.send("API is running");
+});
 
 mongoose
   .connect(MONGO_URI)
